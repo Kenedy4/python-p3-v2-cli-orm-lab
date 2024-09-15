@@ -68,28 +68,96 @@ def delete_department():
 # You'll implement the employee functions in the lab
 
 def list_employees():
-    pass
+    employees = Employee.query.all()
+    for employee in employees:
+         print(f"<Employee {employee.id}: {employee.name}, {employee.job_title}, Department ID: {employee.department_id}>")
 
 
 def find_employee_by_name():
-    pass
+   name = input("Enter the employee's name: ")
+   employee = Employee.query.filter_by(name=name).first()
+   if employee:
+        print(f"<Employee {employee.id}: {employee.name}, {employee.job_title}, Department ID: {employee.department_id}>")
+   else:
+        print(f"Employee {name} not found")
 
 
 def find_employee_by_id():
-    pass
+    try:
+        employee_id = int(input("Enter the employee's id: "))
+        employee = Employee.query.get(employee_id)
+        if employee:
+            print(f"<Employee {employee.id}: {employee.name}, {employee.job_title}, Department ID: {employee.department_id}>")
+        else:
+            print(f"Employee {employee_id} not found")
+    except ValueError:
+        print("Invalid ID entered.")
+    
 
 
+# def create_employee():
+    # try:
+        # name = input("Enter the employee's name: ")
+        # job_title = input("Enter the employee's job title: ")
+        # department_id = int(input("Enter the employee's department id: "))
+        # new_employee = Employee(name=name, job_title=job_title, department_id=department_id)
+        # new_employee.save()
+        # print(f"Success: <Employee {new_employee.id}: {new_employee.name}, {new_employee.job_title}, Department ID: {new_employee.department_id}>")
+    # except Exception as e:
+# print(f"Error creating employee: {str(e)}")
 def create_employee():
-    pass
+    try:
+        name = input("Enter the employee's name: ")
+        job_title = input("Enter the employee's job title: ")
+        department_id = int(input("Enter the employee's department id: "))
+        new_employee = Employee(name=name, job_title=job_title, department_id=department_id)
+        new_employee.save()
+        print(f"Success: <Employee {new_employee.id}: {new_employee.name}, {new_employee.job_title}, Department ID: {new_employee.department_id}>")
+    except Exception as e:
+        print(f"Error creating employee: {str(e)}")
 
 
 def update_employee():
-    pass
-
+    try:
+        employee_id = int(input("Enter the employee's id: "))
+        employee = Employee.query.get(employee_id)
+        if not employee:
+            print(f"Employee {employee_id} not found")
+            return
+        name = input("Enter the employees's new name: ")
+        job_title = input("Enter the employee's new job title: ")
+        department_id = int(input("Enter the employees's new department id: "))
+        
+        employee.name = name
+        employee.job_title = job_title
+        employee.department_id = department_id
+        employee.save()
+        print(f"Success: <Employee {employee.id}: {employee.name}, {employee.job_title}, Department ID: {employee.department_id}>")
+    except Exception as e:
+        print(f"Error updating employee: {str(e)}")
 
 def delete_employee():
-    pass
+    try:
+        employee_id = int(input("Enter the employee's id: "))
+        employee = Employee.query.get(employee_id)
+        if employee:
+            employee.delete()
+            print(f"Employee {employee_id} deleted")
+        else:
+            print(f"Employee {employee_id} not found")
+    except Exception as e:
+        print(f"Error deleting employee: {str(e)}")
 
 
 def list_department_employees():
-    pass
+    try:
+        department_id = int(input("Enter the department's id: "))
+        department = Department.query.get(department_id)
+        if department:
+            employees = department.employees()  # Assuming a relationship is defined
+            for employee in employees:
+                print(f"<Employee {employee.id}: {employee.name}, {employee.job_title}, Department ID: {employee.department_id}>")
+        else:
+            print(f"Department {department_id} not found")
+    except Exception as e:
+        print(f"Error: {str(e)}")

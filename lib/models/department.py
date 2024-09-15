@@ -30,7 +30,7 @@ class Department:
 
     @property
     def location(self):
-        return self._location
+        return self._location 
 
     @location.setter
     def location(self, location):
